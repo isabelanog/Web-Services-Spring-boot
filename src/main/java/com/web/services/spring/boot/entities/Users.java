@@ -1,4 +1,4 @@
-package com.web.services.spring.boot.Entities;
+package com.web.services.spring.boot.entities;
 
 import jakarta.persistence.*;
 
