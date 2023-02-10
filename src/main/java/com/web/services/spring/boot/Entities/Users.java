@@ -1,11 +1,16 @@
 package com.web.services.spring.boot.Entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
 public class Users implements Serializable {
     private static final long seriaLVersionUID = 1L;
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
     private String userName;
     private String email;
     private String phone;
@@ -14,8 +19,8 @@ public class Users implements Serializable {
     public Users() {
 
     }
-    public Users(Long id, String userName, String email, String phone, String password) {
-        this.id = id;
+    public Users(Long userId, String userName, String email, String phone, String password) {
+        this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.phone = phone;
@@ -23,11 +28,11 @@ public class Users implements Serializable {
     }
 
     public Long getId() {
-        return id;
+        return userId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getUserName() {
