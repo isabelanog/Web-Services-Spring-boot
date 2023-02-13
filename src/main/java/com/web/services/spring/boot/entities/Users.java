@@ -1,8 +1,11 @@
 package com.web.services.spring.boot.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,9 +18,11 @@ public class Users implements Serializable {
     private String email;
     private String phone;
     private String password;
+    @JsonIgnore
+    @OneToMany(mappedBy = "client") // nome do atribudo que tá do outro lado da associação
+    private List<Orders> orders = new ArrayList<>();
 
     public Users() {
-
     }
     public Users(Long userId, String userName, String email, String phone, String password) {
         this.userId = userId;
@@ -27,12 +32,12 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    public Long getId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setId(Long id) {
-        this.userId = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -67,15 +72,19 @@ public class Users implements Serializable {
         this.password = password;
     }
 
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Users users)) return false;
-        return Objects.equals(getId(), users.getId());
+        return Objects.equals(getUserId(), users.getUserId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getUserId());
     }
 }
