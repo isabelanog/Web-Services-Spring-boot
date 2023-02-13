@@ -1,12 +1,12 @@
 package com.web.services.spring.boot.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
 public class Category implements Serializable {
     private static final long seriaLVersionUID = 1L;
@@ -14,6 +14,8 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
     private String categoryName;
+    @Transient
+    private Set<Product> products = new HashSet<>(); // conjunto de produtos
     public Category() {
 
     }
@@ -38,6 +40,9 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
+    public Set<Product> getProducts() {
+        return products;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
