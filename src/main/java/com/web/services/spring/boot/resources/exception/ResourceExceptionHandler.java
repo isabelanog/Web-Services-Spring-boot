@@ -13,7 +13,7 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> userNotFound(NotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError standardError = new StandardError(System.currentTimeMillis(), status.value(),
-                "User not found", request.getRequestURI());
+                "Object not found", request.getRequestURI());
         return ResponseEntity.status(status).body(standardError);
 
     }
