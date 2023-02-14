@@ -2,8 +2,11 @@ package com.web.services.spring.boot.services;
 
 import com.web.services.spring.boot.entities.Users;
 import com.web.services.spring.boot.repositories.UsersRepository;
+import com.web.services.spring.boot.services.exception.DataBaseException;
 import com.web.services.spring.boot.services.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +28,13 @@ public class UsersService {
         return usersRepository.save(user);
     }
     public void delete(Long id) {
-        usersRepository.deleteById(id);
+        try {
+            usersRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(e.getMessage());
+        }
     }
     public Users update(Long id, Users user) {
         Users entity = usersRepository.getReferenceById(id);
