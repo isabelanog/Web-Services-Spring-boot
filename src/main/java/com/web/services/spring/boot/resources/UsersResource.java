@@ -5,7 +5,9 @@ import com.web.services.spring.boot.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,5 +25,10 @@ public class UsersResource  {
         Users user = usersService.findById(id);
         return ResponseEntity.ok().body(user);
     }
-
+    @PostMapping
+    public ResponseEntity<Users> insert(@RequestBody Users user) {
+        user = usersService.insert(user);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(user.getUserId()).toUri();
+        return ResponseEntity.created(uri).body(user);
+    }
 }
