@@ -25,8 +25,8 @@ public class Orders implements Serializable {
     private Users client;
     @OneToMany(mappedBy = "id.orders")
     private Set<OrderItem> items = new HashSet<>();
-
-
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
     public Orders() {
     }
     public Orders(Long orderID, Instant moment, OrderStatus orderStatus, Users client) {
@@ -64,7 +64,16 @@ public class Orders implements Serializable {
     public void setClient(Users client) {
         this.client = client;
     }
-     public Set<OrderItem> getItems() {
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    public Set<OrderItem> getItems() {
         return items;
      }
     @Override
