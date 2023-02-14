@@ -4,6 +4,7 @@ import com.web.services.spring.boot.entities.Users;
 import com.web.services.spring.boot.repositories.UsersRepository;
 import com.web.services.spring.boot.services.exception.DataBaseException;
 import com.web.services.spring.boot.services.exception.NotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -37,9 +38,13 @@ public class UsersService {
         }
     }
     public Users update(Long id, Users user) {
-        Users entity = usersRepository.getReferenceById(id);
-        updateData(entity,user);
-        return usersRepository.save(entity);
+        try {
+            Users entity = usersRepository.getReferenceById(id);
+            updateData(entity,user);
+            return usersRepository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(id);
+        }
     }
     private void updateData(Users entity, Users user) {
         entity.setUserName(user.getUserName());
