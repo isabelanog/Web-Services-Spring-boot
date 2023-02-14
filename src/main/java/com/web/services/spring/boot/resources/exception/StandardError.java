@@ -1,27 +1,34 @@
 package com.web.services.spring.boot.resources.exception;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.time.Instant;
 
 public class StandardError implements Serializable {
     private static final long seriaLVersionUID = 1L;
-    private Long timeStamp;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    private Instant timeStamp;
     private int status;
     private String error;
+    private String message;
     private String path;
     public StandardError() {
 
     }
-    public StandardError(Long timeStamp, int status, String error, String path) {
+    public StandardError(Instant timeStamp, int status, String error, String message, String path) {
         this.timeStamp = timeStamp;
         this.status = status;
         this.error = error;
+        this.message = message;
         this.path = path;
+
     }
-    public Long getTimeStamp() {
+    public Instant getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Long timeStamp) {
+    public void setTimeStamp(Instant timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -39,6 +46,14 @@ public class StandardError implements Serializable {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getPath() {

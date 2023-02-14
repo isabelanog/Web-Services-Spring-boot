@@ -7,14 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.Instant;
+
 @ControllerAdvice
 public class ResourceExceptionHandler {
-    @ExceptionHandler
-    public ResponseEntity<StandardError> userNotFound(NotFoundException e, HttpServletRequest request) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<StandardError> resourceNotFound(NotFoundException e, HttpServletRequest request) {
+        String error = "Resource not found";
         HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError standardError = new StandardError(System.currentTimeMillis(), status.value(),
-                "Object not found", request.getRequestURI());
+        StandardError standardError = new StandardError(Instant.now(), status.value(), e.getMessage(),
+                error, request.getRequestURI());
         return ResponseEntity.status(status).body(standardError);
-
     }
 }
